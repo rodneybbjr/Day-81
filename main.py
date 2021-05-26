@@ -1,4 +1,5 @@
 
+
 text_to_morse = {
     'a': '.-',
     'b': '-...',
@@ -65,48 +66,31 @@ special = {
 
 
 def to_morse(message):
+    """Takes in plain-text (message), returns string as morse-code."""
     morse_dict = text_to_morse
     morse_code = [f'{morse_dict[char]}' for char in message]
-    s = ' '
-    return s.join(morse_code)
+    return ' '.join(morse_code)
 
 
 def to_text(morse_code):
+    """Takes in morse_code, returns string as plain-text."""
     morse_dict = {v: k for k, v in text_to_morse.items()}
     morse_dict.update(special)
-    s = ' '
     message = [''.join([f'{morse_dict[char]}'for char in word.split(' ')]) for word in morse_code.split('/')]
-    return s.join(message)
+    return ' '.join(message)
 
 
-def convert_text(choice, text):
+IS_RUNNING = True
 
-    if choice == 'morse':
-        result = to_morse(text)
-        return print(result)
-    elif choice == "text":
-        result = to_text(text)
-        return print(result)
-    else:
-        print("Not valid response. Please try again.")
-        convert_text(choice, text)
+while IS_RUNNING:
 
+    choice = input("Are you converting to: (text) or (morse) or (e)xit ").lower()
 
-is_running = True
-
-while is_running:
-
-    convert = input("Are you converting to: (text) or (morse) ").lower()
-
-    if convert == 'exit':
-        exit()
-    else:
+    if choice in ('e', 'exit'):
+        IS_RUNNING = False
+    elif choice in ('morse', 'text'):
         text_to_convert = input("Enter the message you want to convert:\n").casefold()
-        convert_text(convert, text_to_convert)
-
-
-
-
-
-
-
+        if choice == 'morse':
+            print(to_morse(text_to_convert))
+        elif choice == "text":
+            print(to_text(text_to_convert))
